@@ -1,73 +1,4 @@
-DECLARE 
 
-depthold number(2) := &dnum;
-jobhold varchar2(10) := '&jobtype';
-	cursor emp_cursor is 
-		select sal, comm from emp where deptno = depthold and job = jobhold;
-total_wages number(11,2) := 0;
-high_paid number(4) := 0;
-higher_comm number(4) := 0;
-emp_record emp_cursor%rowtype;
-
-BEGIN
-	open emp_cursor;
-	LOOP	
-		fetch emp_cursor into emp_record;
-		exit when emp_cursor%notfound;
-		emp_record.comm := nvm(emp_record.comm,0);
-		total_wages := total_wages + emp_record.sal + emp_record.comm;
-
-		if emp_record.sal > 2000 then 
-			high_paid := high_paid + 1;
-		end if;
-
-		if emp_record.comm > emp_record.sal then
-			higher_comm := higher_comm + 1;
-		end if;
-	END LOOP;
-
-	INSERT INTO temp1 values (high_paid, higher_comm, 'Total Wages: ' || to_char(total_wages));
-	commit;
-	EXCEPTION
-
-end;
-/
-
-
-DECLARE 
-
-depthold number(2) := &dnum;
-jobhold varchar2(10) := '&jobtype';
-	cursor emp_cursor is 
-		select sal, comm from emp where deptno = depthold and job = jobhold;
-total_wages number(11,2) := 0;
-high_paid number(4) := 0;
-higher_comm number(4) := 0;
-emp_record emp_cursor%rowtype;
-
-BEGIN
-	open emp_cursor;
-	LOOP	
-		fetch emp_cursor into emp_record;
-		exit when emp_cursor%notfound;
-		emp_record.comm := nvm(emp_record.comm,0);
-		total_wages := total_wages + emp_record.sal + emp_record.comm;
-
-		if emp_record.sal > 2000 then 
-			high_paid := high_paid + 1;
-		end if;
-
-		if emp_record.comm > emp_record.sal then
-			higher_comm := higher_comm + 1;
-		end if;
-	END LOOP;
-
-	INSERT INTO temp1 values (high_paid, higher_comm, 'Total Wages: ' || to_char(total_wages));
-	commit;
-	EXCEPTION
-
-end;
-/
 
 /* Use the TEMP1 table to record the number of employees earning more than the 
 threshold amount, the number of employees whose commission is greater than their 
@@ -86,7 +17,7 @@ ollowing structure:
 DECLARE 
 
 depthold number(2) := &dnum;
-jobhold varchar2(10) := '&jobtype';
+jobhold varchar2(10) := UPPER('&jobtype');
 	cursor emp_cursor is 
 		select sal, comm from emp where deptno = depthold and job = jobhold;
 total_wages number(11,2) := 0;
