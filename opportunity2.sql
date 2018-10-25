@@ -36,6 +36,17 @@ BEGIN
 			high_paid := high_paid + 1;
 		END IF;
 
+		IF emp_record.comm > emp_record.sal THEN 
+			higher_comm := higher_comm + 1;
+		END IF;
+
+		EXCEPTION 
+			WHEN no_data_found THEN
+				DBMS_OUTPUT.PUT_LINE(jobhold || 'is NOT a valid job!');
+			WHEN others THEN
+				dbms_output.put_line('no idea what happened here bruv!');
+
+
 		
 	END LOOP;
 
@@ -43,7 +54,7 @@ BEGIN
 	DBMS_OUTPUT.PUT_LINE(higher_comm);
 	DBMS_OUTPUT.PUT_LINE(total_wages);
 
-	INSERT INTO temp1 values (high_paid, higher_comm, 'Total Wages: ' || to_char(total_wages));
+	INSERT INTO temp1 values (to_char(high_paid), to_char(higher_comm), 'Total Wages: ' || to_char(total_wages));
 	commit;
 END;
 /
