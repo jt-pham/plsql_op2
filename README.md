@@ -1,3 +1,3 @@
-# plsql_op2
+# MIS 4386
 
-Here's the second PL/SQL assignment in MIS 4386
+Here's the second PL/SQL opportunity. Good luck.
